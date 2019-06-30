@@ -10,13 +10,17 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def http_post():
-    if request.form['user_name'] != 'slackbot':
+    if not is_bot(request.form):
         send(request.form)
     return ''
 
 
 def main():
     app.run(host='0.0.0.0', port=8000)
+
+
+def is_bot(form):
+    return form['user_name'] is 'slackbot'
 
 
 def send(form):
