@@ -21,17 +21,20 @@ def main():
 
 def send(form):
     to_workspace = form['trigger_word']
-    webhook_url = Config.ws_wh_dict[to_workspace]
+    webhook_url = Config.ws_wh_dict.get(to_workspace)
+
+    # TODO: logging here
+
+    if webhook_url is None:
+        return
 
     payload_dict = {
         'text': form['text'],
         'username': form['user_name'],
     }
 
-    # TODO: logging here
     r = post(webhook_url, data=dumps(payload_dict))
 
 
 if __name__ == '__main__':
     main()
-
