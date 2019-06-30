@@ -12,7 +12,7 @@ app = Flask(__name__)
 def http_post():
     if request.form['user_name'] != 'slackbot':
         send(request.form)
-    return 'hoge'
+    return ''
 
 
 def main():
