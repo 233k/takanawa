@@ -1,4 +1,6 @@
-from os import getenv
+from config import Config
+from json import dumps
+from requests import post
 from flask import Flask
 from flask import request
 
@@ -7,7 +9,7 @@ app = Flask(__name__)
 
 
 @app.route("/", methods=["POST"])
-def post():
+def http_post():
     if request.form['user_name'] != 'slackbot':
         send(request.form)
     return "hoge"
@@ -18,17 +20,17 @@ def main():
 
 
 def send(form):
-    import json
-    import requests
-    
-    SLACK_WEBHOOK = getenv('SLACK_WEBHOOK')
+    to_workspace = form['trigger_word']
+    webhook_url = Config.ws_wh_dict[to_workspace]
 
-    payload_dic = {
+    payload_dict = {
         "text": form['text'],
         "username": form['user_name'],
     }
 
-    r = requests.post(SLACK_WEBHOOK, data=json.dumps(payload_dic))
+    # TODO: logging here
+    r = post(webhook_url, data=dumps(payload_dict))
+
 
 if __name__ == "__main__":
     main()
