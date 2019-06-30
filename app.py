@@ -34,7 +34,10 @@ def send(form):
 
     payload_dict = {
         'text': form['text'],
-        'username': form['user_name'],
+        'username': "{} : {}".format(
+            form['team_domain'],
+            form['user_name']
+        )
     }
 
     r = post(webhook_url, data=dumps(payload_dict))
