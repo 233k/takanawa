@@ -8,11 +8,11 @@ from flask import request
 app = Flask(__name__)
 
 
-@app.route("/", methods=["POST"])
+@app.route('/', methods=['POST'])
 def http_post():
     if request.form['user_name'] != 'slackbot':
         send(request.form)
-    return "hoge"
+    return 'hoge'
 
 
 def main():
@@ -24,14 +24,14 @@ def send(form):
     webhook_url = Config.ws_wh_dict[to_workspace]
 
     payload_dict = {
-        "text": form['text'],
-        "username": form['user_name'],
+        'text': form['text'],
+        'username': form['user_name'],
     }
 
     # TODO: logging here
     r = post(webhook_url, data=dumps(payload_dict))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 
